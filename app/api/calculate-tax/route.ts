@@ -71,13 +71,6 @@ const SURCHARGE_RATES = [
  */
 const CESS_RATE = 4;
 
-/**
- * Calculate tax for the old regime
- * 
- * @param {number} income Annual income
- * @param {Object} investments Investment amounts for various sections
- * @returns {Object} Tax breakdown details
- */
 const calculateTaxForOldRegime = (income, investments = {}) => {
   // Calculate total deductions
   const totalDeductions = calculateTotalDeductions(investments);
@@ -106,12 +99,6 @@ const calculateTaxForOldRegime = (income, investments = {}) => {
   };
 };
 
-/**
- * Calculate tax for the new regime
- * 
- * @param {number} income Annual income
- * @returns {Object} Tax breakdown details
- */
 const calculateTaxForNewRegime = (income) => {
   // No deductions in new regime
   const taxableIncome = income;
@@ -139,57 +126,44 @@ const calculateTaxForNewRegime = (income) => {
   };
 };
 
-/**
- * Calculate total deductions from investments
- * 
- * @param {Object} investments Investment amounts for various sections
- * @returns {number} Total deductions
- */
 const calculateTotalDeductions = (investments) => {
-  // Default to empty object if investments is undefined
-  const investmentObj = investments || {};
-  
-  // Sum all investment amounts
-  let totalDeduction = 0;
-  
-  // 80C deductions (max 1.5 lakhs)
-  if (investmentObj.section80C) {
-    totalDeduction += Math.min(investmentObj.section80C, 150000);
-  }
-  
-  // NPS additional deduction (max 50,000)
-  if (investmentObj.nps) {
-    totalDeduction += Math.min(investmentObj.nps, 50000);
-  }
-  
-  // Health Insurance (80D) (max 25,000 for self & family)
-  if (investmentObj.medicalInsurance) {
-    totalDeduction += Math.min(investmentObj.medicalInsurance, 25000);
-  }
-  
-  // Home Loan Interest Deduction (max 2 lakhs)
-  if (investmentObj.homeLoanInterest) {
-    totalDeduction += Math.min(investmentObj.homeLoanInterest, 200000);
-  }
-  
-  // HRA Exemption (varies based on multiple factors)
-  if (investmentObj.hra) {
-    totalDeduction += investmentObj.hra;
-  }
-  
-  // Standard Deduction for salaried individuals (50,000)
-  totalDeduction += 50000;
-  
-  return totalDeduction;
+// Default to empty object if investments is undefined
+const investmentObj = investments || {};
+
+// Sum all investment amounts
+let totalDeduction = 0;
+
+// 80C deductions (max 1.5 lakhs)
+if (investmentObj.section80C) {
+  totalDeduction += Math.min(investmentObj.section80C, 150000);
+}
+
+// NPS additional deduction (max 50,000)
+if (investmentObj.nps) {
+  totalDeduction += Math.min(investmentObj.nps, 50000);
+}
+
+// Health Insurance (80D) (max 25,000 for self & family)
+if (investmentObj.medicalInsurance) {
+  totalDeduction += Math.min(investmentObj.medicalInsurance, 25000);
+}
+
+// Home Loan Interest Deduction (max 2 lakhs)
+if (investmentObj.homeLoanInterest) {
+  totalDeduction += Math.min(investmentObj.homeLoanInterest, 200000);
+}
+
+// HRA Exemption (varies based on multiple factors)
+if (investmentObj.hra) {
+  totalDeduction += investmentObj.hra;
+}
+
+// Standard Deduction for salaried individuals (50,000)
+totalDeduction += 50000;
+
+return totalDeduction;
 };
 
-/**
- * Calculate basic tax based on income and tax slabs
- * 
- * @param {number} income Taxable income
- * @param {Array} slabs Tax slabs to use
- * @returns {number} Basic tax amount
- */
 const calculateBasicTax = (income, slabs) => {
   let remainingIncome = income;
   let tax = 0;
@@ -207,13 +181,6 @@ const calculateBasicTax = (income, slabs) => {
   return tax;
 };
 
-/**
- * Calculate surcharge based on income
- * 
- * @param {number} basicTax Basic tax amount
- * @param {number} income Total income
- * @returns {number} Surcharge amount
- */
 const calculateSurcharge = (basicTax, income) => {
   let surchargeRate = 0;
   
@@ -233,13 +200,6 @@ const calculateSurcharge = (basicTax, income) => {
   return surcharge;
 };
 
-/**
- * Calculate Health and Education Cess
- * 
- * @param {number} basicTax Basic tax amount
- * @param {number} surcharge Surcharge amount
- * @returns {number} Cess amount
- */
 const calculateCess = (basicTax, surcharge) => {
   return ((basicTax + surcharge) * CESS_RATE) / 100;
 };
