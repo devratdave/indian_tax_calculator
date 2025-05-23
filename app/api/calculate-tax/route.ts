@@ -71,7 +71,7 @@ const SURCHARGE_RATES = [
  */
 const CESS_RATE = 4;
 
-const calculateTaxForOldRegime = (income, investments = {}) => {
+const calculateTaxForOldRegime = (income: number, investments: { [key: string]: number }) => {
   // Calculate total deductions
   const totalDeductions = calculateTotalDeductions(investments);
   
@@ -99,7 +99,7 @@ const calculateTaxForOldRegime = (income, investments = {}) => {
   };
 };
 
-const calculateTaxForNewRegime = (income) => {
+const calculateTaxForNewRegime = (income: number) => {
   // No deductions in new regime
   const taxableIncome = income;
   
@@ -126,45 +126,45 @@ const calculateTaxForNewRegime = (income) => {
   };
 };
 
-const calculateTotalDeductions = (investments) => {
-// Default to empty object if investments is undefined
-const investmentObj = investments || {};
-
-// Sum all investment amounts
-let totalDeduction = 0;
-
-// 80C deductions (max 1.5 lakhs)
-if (investmentObj.section80C) {
-  totalDeduction += Math.min(investmentObj.section80C, 150000);
-}
-
-// NPS additional deduction (max 50,000)
-if (investmentObj.nps) {
-  totalDeduction += Math.min(investmentObj.nps, 50000);
-}
-
-// Health Insurance (80D) (max 25,000 for self & family)
-if (investmentObj.medicalInsurance) {
-  totalDeduction += Math.min(investmentObj.medicalInsurance, 25000);
-}
-
-// Home Loan Interest Deduction (max 2 lakhs)
-if (investmentObj.homeLoanInterest) {
-  totalDeduction += Math.min(investmentObj.homeLoanInterest, 200000);
-}
-
-// HRA Exemption (varies based on multiple factors)
-if (investmentObj.hra) {
-  totalDeduction += investmentObj.hra;
-}
-
-// Standard Deduction for salaried individuals (50,000)
-totalDeduction += 50000;
-
-return totalDeduction;
+const calculateTotalDeductions = (investments: { [key: string]: number }) => {
+  // Default to empty object if investments is undefined
+  const investmentObj = investments || {};
+  
+  // Sum all investment amounts
+  let totalDeduction = 0;
+  
+  // 80C deductions (max 1.5 lakhs)
+  if (investmentObj.section80C) {
+    totalDeduction += Math.min(investmentObj.section80C, 150000);
+  }
+  
+  // NPS additional deduction (max 50,000)
+  if (investmentObj.nps) {
+    totalDeduction += Math.min(investmentObj.nps, 50000);
+  }
+  
+  // Health Insurance (80D) (max 25,000 for self & family)
+  if (investmentObj.medicalInsurance) {
+    totalDeduction += Math.min(investmentObj.medicalInsurance, 25000);
+  }
+  
+  // Home Loan Interest Deduction (max 2 lakhs)
+  if (investmentObj.homeLoanInterest) {
+    totalDeduction += Math.min(investmentObj.homeLoanInterest, 200000);
+  }
+  
+  // HRA Exemption (varies based on multiple factors)
+  if (investmentObj.hra) {
+    totalDeduction += investmentObj.hra;
+  }
+  
+  // Standard Deduction for salaried individuals (50,000)
+  totalDeduction += 50000;
+  
+  return totalDeduction;
 };
 
-const calculateBasicTax = (income, slabs) => {
+const calculateBasicTax = (income: number, slabs: { limit: number, rate: number }[]) => {
   let remainingIncome = income;
   let tax = 0;
   let prevLimit = 0;
@@ -181,7 +181,7 @@ const calculateBasicTax = (income, slabs) => {
   return tax;
 };
 
-const calculateSurcharge = (basicTax, income) => {
+const calculateSurcharge = (basicTax: number, income: number) => {
   let surchargeRate = 0;
   
   for (const rate of SURCHARGE_RATES) {
@@ -200,6 +200,7 @@ const calculateSurcharge = (basicTax, income) => {
   return surcharge;
 };
 
-const calculateCess = (basicTax, surcharge) => {
+
+const calculateCess = (basicTax: number, surcharge: number) => {
   return ((basicTax + surcharge) * CESS_RATE) / 100;
 };
