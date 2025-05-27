@@ -1,9 +1,9 @@
 import React from "react";
-import TaxCalculator from "./_components/_pages/TaxCalculator";
+import HomeComponent from "./_components/_pages/HomeComponent";
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
-    <TaxCalculator />
+    <HomeComponent />
   );
 }
 
