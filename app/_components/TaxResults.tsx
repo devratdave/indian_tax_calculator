@@ -1,25 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingDown, AlertCircle, CheckCircle } from 'lucide-react';
+import { TaxDetails } from './_types';
 
 interface TaxResultsProps {
   taxDetails: TaxDetails;
-}
-
-interface TaxRegimeDetails {
-  basicTax: number;
-  surcharge: number;
-  cess: number;
-  deductions: number;
-  totalTax: number;
-}
-
-interface TaxDetails {
-  income: number;
-  oldRegime: TaxRegimeDetails;
-  newRegime: TaxRegimeDetails;
-  effectiveOldTaxRate: number;
-  effectiveNewTaxRate: number;
 }
 
 const formatCurrency = (amount: number): string => {

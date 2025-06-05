@@ -5,50 +5,8 @@ import { motion } from 'framer-motion';
 import { RefreshCw } from 'lucide-react';
 import TaxForm from '../TaxForm';
 import TaxResults from '../TaxResults';
-
-export const calculateTax = async (
-  income: number,
-  regime: 'old' | 'new',
-  investments: { [key: string]: number }
-): Promise<TaxDetails> => {   
-  try {
-    const response = await fetch(`/api/calculate-tax`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        income,
-        regime,
-        investments
-      })
-    });
-    
-    const data = await response.json();
-    return data;
-    
-  } catch (error) {
-    console.error('Error calculating tax:', error);
-    throw new Error('Failed to calculate tax. Please try again.');
-  }
-};
-
-
-interface TaxRegimeDetails {
-  basicTax: number;
-  surcharge: number;
-  cess: number;
-  deductions: number;
-  totalTax: number;
-}
-
-interface TaxDetails {
-  income: number;
-  oldRegime: TaxRegimeDetails;
-  newRegime: TaxRegimeDetails;
-  effectiveOldTaxRate: number;
-  effectiveNewTaxRate: number;
-}
+import { TaxDetails } from '../_types';
+import { calculateTax } from '../_services/commentServices';
 
 const TaxCalculator: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
