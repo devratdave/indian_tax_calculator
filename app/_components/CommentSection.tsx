@@ -24,7 +24,8 @@ const CommentSection: React.FC = () => {
       const fetchedComments = await getComments();
       setComments(fetchedComments);
 
-    } catch (err) {
+    } catch (error) {
+      console.error('Error fetching comments:', error);
       setError('Failed to load comments');
     } finally {
       setLoading(false);
@@ -40,11 +41,12 @@ const CommentSection: React.FC = () => {
 
     try {
       const newComment = await addComment(name.trim(), comment.trim());
-      const newComments = [newComment.response, ...comments].slice(0, 25)
+      const newComments = [newComment, ...comments].slice(0, 25)
       setComments(newComments);
       setComment('');
       setName('');
-    } catch (err) {
+    } catch (error) {
+      console.error('Error adding comment:', error);
       setError('Failed to add comment');
     } finally {
       setSubmitting(false);

@@ -12,7 +12,8 @@ export const addComment = async (name: string, comment: string): Promise<Comment
       })
   });
     const data = await response.json();
-    return data
+    console.log('data', data);
+    return data.response
 
   } catch (error) {
     console.error('Error adding comment:', error);
