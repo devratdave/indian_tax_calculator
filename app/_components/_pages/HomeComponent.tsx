@@ -86,7 +86,7 @@ const HomeComponentClient: React.FC = () => {
                   Compare both tax regimes and optimize your tax savings.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/calculator" passHref legacyBehavior>
+                <Link href="/tax-calculator" passHref legacyBehavior>
                     <a className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
                       Start Calculating
                       <ArrowRight className="ml-2 h-5 w-5" />
