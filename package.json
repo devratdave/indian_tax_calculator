@@ -9,6 +9,9 @@
     "lint": "next lint",
     "postbuild": "prisma generate"
   },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
   "dependencies": {
     "@prisma/client": "^6.9.0",
     "axios": "^1.9.0",
